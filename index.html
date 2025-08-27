@@ -196,9 +196,12 @@
         </div>
 
         <div class="input-group">
-          <label for="phone">Contact Number</label>
-          <input id="phone" name="entry.650886798" type="tel" required autocomplete="tel" pattern="\d{1,12}" title="Please enter a valid number" maxlength="12" />
-        </div>
+  <label for="phone">Contact Number</label>
+  <input id="phone" name="entry.650886798" type="tel" required autocomplete="tel" 
+         pattern="^\d{1,12}$" title="Please enter a valid number (up to 12 digits)" 
+         maxlength="12" inputmode="numeric" />
+</div>
+
 
         <div class="input-group">
           <label for="city">City</label>
