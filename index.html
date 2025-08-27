@@ -9,39 +9,167 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
-    :root{--accent:#00ffcc;--accent-2:#0066ff;--bg:#0a0a1a}
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:var(--bg);color:#fff;font-family:Segoe UI,system-ui,Roboto,Arial}
+  :root {
+    --accent: #00ffcc;
+    --accent-2: #0066ff;
+    --bg: #0a0a1a;
+  }
 
-    /* Canvas background */
-    #bgCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.12;pointer-events:none}
+  * {
+    box-sizing: border-box;
+  }
 
-    .wrap{position:relative;z-index:1;min-height:100%;display:flex;align-items:center;justify-content:center;padding:36px}
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    background: var(--bg);
+    color: #fff;
+    font-family: Segoe UI, system-ui, Roboto, Arial;
+  }
 
-    .panel{width:420px;background:rgba(0,0,0,0.68);padding:22px;border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.6),0 0 18px rgba(0,255,204,.12);backdrop-filter:blur(3px);}
+  /* Canvas background */
+  #bgCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.12;
+    pointer-events: none;
+  }
 
-    .logos{display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:12px}
-    .logos img{height:44px;object-fit:contain}
-    .banner{display:block;margin:6px auto 12px;max-width:260px}
+  .wrap {
+    position: relative;
+    z-index: 1;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 36px;
+  }
 
-    h2{color:var(--accent);text-align:center;margin:6px 0 18px;font-size:1.4rem;text-shadow:0 0 8px rgba(0,255,204,.25)}
+  .panel {
+    width: 420px;
+    background: rgba(0, 0, 0, 0.68);
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 255, 204, 0.12);
+    backdrop-filter: blur(3px);
+  }
 
-    form{display:block}
-    .input-group{margin-bottom:12px}
-    label{display:block;margin-bottom:6px;color:var(--accent);font-weight:600}
+  .logos {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
 
-    input,textarea,select{width:100%;padding:11px;border-radius:10px;background:#000;border:1px solid rgba(255,255,255,0.06);color:#fff;font-size:0.95rem;transition:box-shadow .18s ease,transform .06s ease}
-    input:focus,textarea:focus,select:focus{outline:none;box-shadow:0 0 0 8px rgba(0,255,204,0.06);border-color:var(--accent)}
+  .logos img {
+    height: 44px;
+    object-fit: contain;
+  }
+  
+  .banner {
+    display: block;
+    margin: 6px auto 12px;
+    max-width: 260px;
+  }
 
-    select option{background:#000;color:#fff}
+  h2 {
+    color: var(--accent);
+    text-align: center;
+    margin: 6px 0 18px;
+    font-size: 1.4rem;
+    text-shadow: 0 0 8px rgba(0, 255, 204, 0.25);
+  }
 
-    #otherWrap{display:none}
+  form {
+    display: block;
+  }
 
-    button{width:100%;padding:13px;border-radius:999px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#001014;font-weight:800;cursor:pointer;transition:transform .12s ease,box-shadow .18s ease}
-    button:hover{transform:translateY(-2px);box-shadow:0 0 18px rgba(0,255,204,.32)}
+  .input-group {
+    margin-bottom: 12px;
+  }
 
-    .fine{font-size:.84rem;color:#9db0b2;margin-top:10px;text-align:center}
-  </style>
+  label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 11px;
+    border-radius: 10px;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-size: 0.95rem;
+    transition: box-shadow 0.18s ease, transform 0.06s ease;
+    position: relative;
+  }
+
+  /* Shine animation */
+  @keyframes shine {
+    0% {
+      background-position: -200%;
+    }
+    100% {
+      background-position: 200%;
+    }
+  }
+
+  .input-group input,
+  .input-group select,
+  .input-group textarea {
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 204, 0.2) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shine 1.5s infinite;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 8px rgba(0, 255, 204, 0.06);
+    border-color: var(--accent);
+    animation: none; /* stop shine effect on focus */
+  }
+
+  #otherWrap {
+    display: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 13px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color: #001014;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.18s ease;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 18px rgba(0, 255, 204, 0.32);
+  }
+
+  .fine {
+    font-size: 0.84rem;
+    color: #9db0b2;
+    margin-top: 10px;
+    text-align: center;
+  }
+</style>
+
 </head>
 <body>
 
@@ -66,7 +194,7 @@
 
         <div class="input-group">
           <label for="phone">Contact Number</label>
-          <input id="phone" name="entry.650886798" type="tel" required autocomplete="tel" pattern="\d{1,12}" title="Please enter a valid number" />
+          <input id="phone" name="entry.650886798" type="tel" required autocomplete="tel" pattern="\d{1,12}" title="Please enter a valid number" maxlength="12" />
         </div>
 
         <div class="input-group">
