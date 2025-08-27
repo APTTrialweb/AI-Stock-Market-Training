@@ -216,7 +216,7 @@
   <label for="phone">Contact Number</label>
   <input id="phone" name="entry.650886798" type="tel" required autocomplete="tel" 
          pattern="^\d{1,12}$" title="Please enter a valid number (up to 12 digits)" 
-         maxlength="12" inputmode="numeric" />
+         maxlength="12" inputmode="numeric" oninput="validatePhoneNumber(event)" />
 </div>
 
 
@@ -258,6 +258,13 @@
     // --- Form submission (background POST to Google Forms) ---
     // Using fetch with 'no-cors' prevents redirect to Google form page.
     // Google returns an opaque response; we optimistically show a success message.
+
+    function validatePhoneNumber(event) {
+    // Get the current value of the input field
+    const input = event.target;
+    // Remove all non-numeric characters
+    input.value = input.value.replace(/\D/g, '');
+  }
 
     const form = document.getElementById('interestForm');
     const submitBtn = document.getElementById('submitBtn');
