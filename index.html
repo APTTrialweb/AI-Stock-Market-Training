@@ -61,17 +61,17 @@
       <form id="interestForm">
         <div class="input-group">
           <label for="name">Full Name</label>
-          <input id="name" name="entry.1624084255" type="text" required autocomplete="name" />
+          <input id="name" name="entry.1624084255" type="text" required autocomplete="name" maxlength="20" />
         </div>
 
         <div class="input-group">
           <label for="phone">Contact Number</label>
-          <input id="phone" name="entry.650886798" type="tel" required autocomplete="tel" />
+          <input id="phone" name="entry.650886798" type="tel" required autocomplete="tel" pattern="\d{1,12}" title="Please enter a valid number" />
         </div>
 
         <div class="input-group">
           <label for="city">City</label>
-          <input id="city" name="entry.1580464384" type="text" required autocomplete="address-level2" />
+          <input id="city" name="entry.1580464384" type="text" required autocomplete="address-level2" maxlength="15" />
         </div>
 
         <div class="input-group">
