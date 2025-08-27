@@ -115,33 +115,58 @@
   }
 
   /* Shine animation */
-  @keyframes shine {
-    0% {
-      background-position: -200%;
-    }
-    100% {
-      background-position: 200%;
-    }
+@keyframes shine {
+  0% {
+    background-position: -200% 0;
   }
+  100% {
+    background-position: 200% 0;
+  }
+}
 
-  /* Shine effect applied only to the edges of the fields */
-  .input-group input,
-  .input-group select,
-  .input-group textarea {
-    background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 204, 0.2) 50%, transparent 100%);
-    background-size: 200% 100%;
-    animation: shine 1.5s infinite;
-    box-shadow: inset 0 0 0 2px rgba(0, 255, 204, 0.15); /* Edge glow */
-  }
+/* Base input background (no shine inside) */
+.input-group input,
+.input-group select,
+.input-group textarea {
+  background: #000; /* solid background inside */
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  z-index: 1;
+}
 
-  input:focus,
-  select:focus,
-  textarea:focus {
-    outline: none;
-    box-shadow: inset 0 0 0 2px rgba(0, 255, 204, 0.6); /* Stronger glow on focus */
-    border-color: var(--accent);
-    animation: none; /* stop shine effect on focus */
-  }
+/* Shine border effect (edges only) */
+.input-group input::before,
+.input-group select::before,
+.input-group textarea::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px; /* match input radius */
+  padding: 2px; /* border thickness */
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 255, 204, 0.6) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shine 1.5s linear infinite;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Focus state: stronger glow, stop shine */
+.input-group input:focus::before,
+.input-group select:focus::before,
+.input-group textarea:focus::before {
+  animation: none;
+  background: rgba(0, 255, 204, 0.8);
+}
 
   /* Styling for the Current Qualification dropdown */
   .input-group select {
