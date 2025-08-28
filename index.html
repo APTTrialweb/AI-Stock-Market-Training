@@ -114,53 +114,21 @@
     position: relative;
   }
 
-  /* Shine animation */
-  @keyframes shine {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
-  }
-
-  /* Base input background (no shine inside) */
+  /* Constant glowing border effect */
   .input-group input,
   .input-group select,
   .input-group textarea {
-    background: #000; /* solid background inside */
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    position: relative;
-    z-index: 1;
-    padding: 11px;
+    box-shadow: 0 0 10px 4px rgba(0, 255, 204, 0.7); /* Constant glow effect */
+    border-color: rgba(0, 255, 204, 0.7); /* Glowing border color */
   }
 
-  /* Shine effect over the whole text box */
-  .input-group input::before,
-  .input-group select::before,
-  .input-group textarea::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 10px; /* match input radius */
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(0, 255, 204, 0.6) 50%,
-      transparent 100%
-    );
-    background-size: 200% 100%;
-    animation: shine 1.5s linear infinite;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  /* Focus state: stronger glow, stop shine */
-  .input-group input:focus::before,
-  .input-group select:focus::before,
-  .input-group textarea:focus::before {
-    animation: none;
-    background: rgba(0, 255, 204, 0.8);
+  /* Focus effect to make the glow stronger */
+  .input-group input:focus,
+  .input-group select:focus,
+  .input-group textarea:focus {
+    outline: none;
+    box-shadow: 0 0 15px 6px rgba(0, 255, 204, 1); /* More intense glow on focus */
+    border-color: rgba(0, 255, 204, 1); /* Focused glowing border */
   }
 
   /* Styling for the Current Qualification dropdown */
