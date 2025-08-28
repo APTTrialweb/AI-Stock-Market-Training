@@ -119,34 +119,32 @@
   .input-group input,
   .input-group select,
   .input-group textarea {
-    box-shadow: 0 0 10px 4px rgba(0, 255, 204, 0.7); /* Constant glow effect */
-    border-color: rgba(0, 255, 204, 0.7); /* Glowing border color */
+    box-shadow: 0 0 10px 4px rgba(0, 255, 204, 0.7);
+    border-color: rgba(0, 255, 204, 0.7);
   }
 
-  /* Focus effect to make the glow stronger */
   .input-group input:focus,
   .input-group select:focus,
   .input-group textarea:focus {
     outline: none;
-    box-shadow: 0 0 15px 6px rgba(0, 255, 204, 1); /* More intense glow on focus */
-    border-color: rgba(0, 255, 204, 1); /* Focused glowing border */
+    box-shadow: 0 0 15px 6px rgba(0, 255, 204, 1);
+    border-color: rgba(0, 255, 204, 1);
   }
 
-  /* Styling for the Current Qualification dropdown */
   .input-group select {
-    background-color: #000; /* Set background to black */
-    color: #fff; /* Set text color to white */
-    border: 1px solid rgba(255, 255, 255, 0.06); /* Border remains the same */
+    background-color: #000;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.06);
     padding: 11px;
     font-size: 0.95rem;
-    font-family: inherit; /* Inherit font from parent */
+    font-family: inherit;
     border-radius: 10px;
     transition: box-shadow 0.18s ease, transform 0.06s ease;
   }
 
   .input-group select option {
-    background-color: #000; /* Set background color of the options to black */
-    color: #fff; /* Set the text color to white */
+    background-color: #000;
+    color: #fff;
   }
 
   #otherWrap {
@@ -176,6 +174,13 @@
     margin-top: 10px;
     text-align: center;
   }
+
+  /* Secondary button style for the FAQ download */
+  .btn-secondary {
+    margin-top: 10px;
+    background: linear-gradient(90deg, #86ffea, #7db3ff);
+    color: #001014;
+  }
 </style>
   
 </head>
@@ -187,7 +192,7 @@
     <div class="panel" role="main">
       <div class="logos">
         <img src="https://github.com/APTTrialweb/AI-Stock-Market-Training/blob/main/logo-dark.jpg?raw=true" alt="APT logo">
-        <img src="https://github.com/APTTrialweb/AI-Stock-Market-Training/blob/main/fastr-banner.jpg?raw=true" alt="FASTR logo"> <!-- replace with your FASTR url -->
+        <img src="https://github.com/APTTrialweb/AI-Stock-Market-Training/blob/main/fastr-banner.jpg?raw=true" alt="FASTR logo">
       </div>
 
       <img class="banner" src="https://github.com/APTTrialweb/AI-Stock-Market-Training/blob/main/fastr-logo.png?raw=true" alt="Training banner"> 
@@ -201,12 +206,11 @@
         </div>
 
         <div class="input-group">
-  <label for="phone">Contact Number</label>
-  <input id="phone" name="entry.650886798" type="tel" required autocomplete="tel" 
-         pattern="^\d{1,12}$" title="Please enter a valid number (up to 12 digits)" 
-         maxlength="12" inputmode="numeric" oninput="validatePhoneNumber(event)" />
-</div>
-
+          <label for="phone">Contact Number</label>
+          <input id="phone" name="entry.650886798" type="tel" required autocomplete="tel" 
+                 pattern="^\d{1,12}$" title="Please enter a valid number (up to 12 digits)" 
+                 maxlength="12" inputmode="numeric" oninput="validatePhoneNumber(event)" />
+        </div>
 
         <div class="input-group">
           <label for="city">City</label>
@@ -225,7 +229,6 @@
           </select>
         </div>
 
-        <!-- Google Forms expects the Other text field to be sent as entry.<id>.other_option_response -->
         <div class="input-group" id="otherWrap">
           <label for="otherText">If Other, please specify</label>
           <input id="otherText" name="entry.16579278.other_option_response" type="text" placeholder="Type your qualification" />
@@ -237,6 +240,10 @@
         </div>
 
         <button type="submit" id="submitBtn">Submit</button>
+
+        <!-- NEW: Direct FAQ download button -->
+        <button type="button" id="downloadFaqBtn" class="btn-secondary">Download FAQ</button>
+
         <div class="fine">By submitting, you consent to being contacted about this program.</div>
       </form>
     </div>
@@ -244,22 +251,16 @@
 
   <script>
     // --- Form submission (background POST to Google Forms) ---
-    // Using fetch with 'no-cors' prevents redirect to Google form page.
-    // Google returns an opaque response; we optimistically show a success message.
-
     function validatePhoneNumber(event) {
-    // Get the current value of the input field
-    const input = event.target;
-    // Remove all non-numeric characters
-    input.value = input.value.replace(/\D/g, '');
-  }
+      const input = event.target;
+      input.value = input.value.replace(/\D/g, '');
+    }
 
     const form = document.getElementById('interestForm');
     const submitBtn = document.getElementById('submitBtn');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      // disable while sending
       submitBtn.disabled = true;
       const origText = submitBtn.textContent;
       submitBtn.textContent = 'Submitting...';
@@ -267,14 +268,12 @@
       const fd = new FormData(form);
 
       try {
-        // POST to Google Forms formResponse endpoint
         await fetch('https://docs.google.com/forms/d/e/1FAIpQLSe5Ay8rJ2EAtkp1m61JB5cbOIPgiyRetsWm5h3rfMzX9FKHgQ/formResponse', {
           method: 'POST',
           mode: 'no-cors',
           body: fd
         });
 
-        // show custom success and reset
         Swal.fire({icon:'success',title:'Thank you!',text:'Your response has been recorded.',confirmButtonColor:'#00ffcc'});
         form.reset();
         document.getElementById('otherWrap').style.display = 'none';
@@ -374,7 +373,14 @@
       drawGrid(); drawCandles();
       xOffset -= speed;
       const stepPx = candleW + gap;
-      if (xOffset <= -stepPx){ xOffset += stepPx; candles.shift(); const next = genCandle(lastClose); lastClose = next.c; candles.push(next); priceCenter += (lastClose - priceCenter)*0.06; }
+      if (xOffset <= -stepPx){ 
+        xOffset += stepPx; 
+        candles.shift(); 
+        const next = genCandle(lastClose); 
+        lastClose = next.c; 
+        candles.push(next); 
+        priceCenter += (lastClose - priceCenter)*0.06; 
+      }
       requestAnimationFrame(tick);
     }
 
@@ -387,6 +393,37 @@
       console.assert(typeof c.o==='number' && typeof c.c==='number','Candle numbers');
       console.log('%cCanvas candlestick initialized', 'color: #00ffcc');
     })();
+
+    // --- NEW: Direct FAQ download (hidden iframe method) ---
+    const downloadBtn = document.getElementById('downloadFaqBtn');
+    const FAQ_URL = 'https://drive.google.com/uc?export=download&id=12crMMNPdaAk5ARgNRu7addkvf8Y_5cU8';
+
+    function triggerDirectDownload(url){
+      // Show a brief toast so users know something is happening
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        icon: 'info',
+        title: 'Starting download…',
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+      // Create a hidden iframe to start the download without opening Drive
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = url;
+      document.body.appendChild(iframe);
+
+      // Cleanup later
+      setTimeout(() => {
+        try { document.body.removeChild(iframe); } catch(e){}
+      }, 60000);
+    }
+
+    downloadBtn.addEventListener('click', () => {
+      triggerDirectDownload(FAQ_URL);
+    });
   </script>
 </body>
 </html>
